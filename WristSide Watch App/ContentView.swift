@@ -10,15 +10,15 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         VStack {
-            Text("9:41")
+            Text("Q4 - 4:22")
                 .bold()
-                .font(Font.system(.largeTitle, design: .rounded))
+                .font(Font.system(.title, design: .rounded))
             
             HStack {
                 Text("NYK 2")
                 Text("-")
                 Text("1 SAS")
-            }.foregroundStyle(.gray)
+            }.foregroundStyle(.white)
             
             Text("Finals")
                 .font(Font.system(.footnote, design: .rounded))
@@ -42,7 +42,10 @@ struct ContentView: View {
                 }
                 Spacer()
                 
-                Text("Q4 - 4:22")
+                Text("~ 10 pt")
+                    .bold()
+                    .font(Font.system(.footnote, design: .rounded))
+                    .foregroundStyle(.red)
                 
                 Spacer()
                 

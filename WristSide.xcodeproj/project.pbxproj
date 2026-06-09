@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B69C67912FD8933F001584E8 /* WristSide Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = B69C67902FD8933F001584E8 /* WristSide Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		B69C67D42FD8B73E001584E8 /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = B69C67D32FD8B73E001584E8 /* Secrets.xcconfig */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 		B69C67902FD8933F001584E8 /* WristSide Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WristSide Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B69C679F2FD89340001584E8 /* WristSide Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "WristSide Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B69C67A92FD89340001584E8 /* WristSide Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "WristSide Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B69C67D32FD8B73E001584E8 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -101,6 +103,7 @@
 		B69C67832FD8933F001584E8 = {
 			isa = PBXGroup;
 			children = (
+				B69C67D32FD8B73E001584E8 /* Secrets.xcconfig */,
 				B69C67942FD8933F001584E8 /* WristSide Watch App */,
 				B69C67A22FD89340001584E8 /* WristSide Watch AppTests */,
 				B69C67AC2FD89340001584E8 /* WristSide Watch AppUITests */,
@@ -269,6 +272,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B69C67D42FD8B73E001584E8 /* Secrets.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -333,6 +337,7 @@
 /* Begin XCBuildConfiguration section */
 		B69C67B12FD89340001584E8 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B69C67D32FD8B73E001584E8 /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -395,6 +400,7 @@
 		};
 		B69C67B22FD89340001584E8 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B69C67D32FD8B73E001584E8 /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -449,6 +455,7 @@
 		};
 		B69C67B42FD89340001584E8 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B69C67D32FD8B73E001584E8 /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -457,6 +464,7 @@
 				DEVELOPMENT_TEAM = D7SKB9M5DQ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "WristSide-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = WristSide;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
@@ -482,6 +490,7 @@
 		};
 		B69C67B52FD89340001584E8 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B69C67D32FD8B73E001584E8 /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -490,6 +499,7 @@
 				DEVELOPMENT_TEAM = D7SKB9M5DQ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "WristSide-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = WristSide;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
@@ -516,6 +526,7 @@
 		};
 		B69C67B82FD89340001584E8 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B69C67D32FD8B73E001584E8 /* Secrets.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -533,6 +544,7 @@
 		};
 		B69C67B92FD89340001584E8 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B69C67D32FD8B73E001584E8 /* Secrets.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;

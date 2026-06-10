@@ -4,5 +4,9 @@
 <dict>
 	<key>ANTHROPIC_API_KEY</key>
 	<string>$(ANTHROPIC_API_KEY)</string>
+	<key>SCOREBOARD_BASE_URL</key>
+	<string>$(SCOREBOARD_BASE_URL)</string>
+	<key>SUMMARY_BASE_URL</key>
+	<string>$(SUMMARY_BASE_URL)</string>
 </dict>
 </plist>

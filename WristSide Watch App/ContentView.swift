@@ -8,19 +8,28 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var gameService = GameService()
+    
+    var event: NBAEvent? { gameService.scoreboard?.events.first }
+    var competition: NBACompetition? { event?.competitions.first }
+    var home: NBACompetitors? { competition?.competitors.first(where: { $0.homeAway == "home" }) }
+    var away: NBACompetitors? { competition?.competitors.first(where: { $0.homeAway == "away" }) }
+    var scoreDiff: Int? {
+        guard let h = Int(home?.score ?? ""), let a = Int(away?.score ?? "") else { return nil }
+        return abs(h - a)
+    }
+    
     var body: some View {
         VStack {
-            Text("Q4 - 4:22")
+            Text("Q\(event?.status.period ?? 0) · \(event?.status.displayClock ?? "--")")
                 .bold()
                 .font(Font.system(.title, design: .rounded))
             
             HStack {
-                Text("NYK 2")
-                Text("-")
-                Text("1 SAS")
+                Text(competition?.series?.summary ?? "NBA Finals")
             }.foregroundStyle(.white)
             
-            Text("Finals")
+            Text(competition?.notes?.first?.headline ?? "Finals")
                 .font(Font.system(.footnote, design: .rounded))
                 .foregroundStyle(.gray)
             
@@ -32,29 +41,30 @@ struct ContentView: View {
                 .foregroundStyle(.green)
                 .fixedSize(horizontal: false, vertical: true)
                 .lineLimit(3)
+                .padding()
             
             HStack {
                 VStack {
-                    Text("NYK")
-                    Text("111")
-                        .bold()
+                    Text(home?.team.abbreviation ?? "---")
+                    Text(home?.score ?? "0")
                         .font(Font.system(.callout, design: .rounded))
-                }
+                }.bold()
+                
                 Spacer()
                 
-                Text("~ 10 pt")
+                Text(scoreDiff.map { "\($0) pt" } ?? "--")
                     .bold()
-                    .font(Font.system(.footnote, design: .rounded))
+                    .font(Font.system(.callout, design: .rounded))
                     .foregroundStyle(.red)
                 
                 Spacer()
                 
                 VStack {
-                    Text("SAS")
-                    Text("115")
-                        .bold()
+                    Text(away?.team.abbreviation ?? "---")
+                    Text(away?.score ?? "0")
+                        
                         .font(Font.system(.callout, design: .rounded))
-                }
+                }.bold()
             }
             .font(Font.system(.footnote, design: .rounded))
         }

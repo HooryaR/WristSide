@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B676BE8D2FDA0E4400DE05E0 /* GameService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B676BE8C2FDA0B0A00DE05E0 /* GameService.swift */; };
+		B676BE8E2FDA0E9200DE05E0 /* GameModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = B676BE892FDA057200DE05E0 /* GameModels.swift */; };
 		B69C67912FD8933F001584E8 /* WristSide Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = B69C67902FD8933F001584E8 /* WristSide Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		B69C67D42FD8B73E001584E8 /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = B69C67D32FD8B73E001584E8 /* Secrets.xcconfig */; };
 /* End PBXBuildFile section */
@@ -50,6 +52,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B676BE892FDA057200DE05E0 /* GameModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModels.swift; sourceTree = "<group>"; };
+		B676BE8C2FDA0B0A00DE05E0 /* GameService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameService.swift; sourceTree = "<group>"; };
 		B69C678A2FD8933F001584E8 /* WristSide.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WristSide.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B69C67902FD8933F001584E8 /* WristSide Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WristSide Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B69C679F2FD89340001584E8 /* WristSide Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "WristSide Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -100,9 +104,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B676BE882FDA056700DE05E0 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B676BE892FDA057200DE05E0 /* GameModels.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		B676BE8B2FDA0B0300DE05E0 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B676BE8C2FDA0B0A00DE05E0 /* GameService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		B69C67832FD8933F001584E8 = {
 			isa = PBXGroup;
 			children = (
+				B676BE8B2FDA0B0300DE05E0 /* Services */,
+				B676BE882FDA056700DE05E0 /* Models */,
 				B69C67D32FD8B73E001584E8 /* Secrets.xcconfig */,
 				B69C67942FD8933F001584E8 /* WristSide Watch App */,
 				B69C67A22FD89340001584E8 /* WristSide Watch AppTests */,
@@ -297,6 +319,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B676BE8D2FDA0E4400DE05E0 /* GameService.swift in Sources */,
+				B676BE8E2FDA0E9200DE05E0 /* GameModels.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

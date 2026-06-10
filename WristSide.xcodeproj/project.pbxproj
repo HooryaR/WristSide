@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		B676BE8D2FDA0E4400DE05E0 /* GameService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B676BE8C2FDA0B0A00DE05E0 /* GameService.swift */; };
 		B676BE8E2FDA0E9200DE05E0 /* GameModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = B676BE892FDA057200DE05E0 /* GameModels.swift */; };
+		B676BEAB2FDA25CD00DE05E0 /* ClaudeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B676BEAA2FDA25C400DE05E0 /* ClaudeModel.swift */; };
+		B676BEAD2FDA25E500DE05E0 /* ClaudeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B676BEAC2FDA25E100DE05E0 /* ClaudeService.swift */; };
+		B676BEAE2FDA268B00DE05E0 /* TriggerDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = B676BEA92FDA23AB00DE05E0 /* TriggerDetector.swift */; };
 		B69C67912FD8933F001584E8 /* WristSide Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = B69C67902FD8933F001584E8 /* WristSide Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		B69C67D42FD8B73E001584E8 /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = B69C67D32FD8B73E001584E8 /* Secrets.xcconfig */; };
 /* End PBXBuildFile section */
@@ -55,6 +58,8 @@
 		B676BE892FDA057200DE05E0 /* GameModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModels.swift; sourceTree = "<group>"; };
 		B676BE8C2FDA0B0A00DE05E0 /* GameService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameService.swift; sourceTree = "<group>"; };
 		B676BEA92FDA23AB00DE05E0 /* TriggerDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriggerDetector.swift; sourceTree = "<group>"; };
+		B676BEAA2FDA25C400DE05E0 /* ClaudeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeModel.swift; sourceTree = "<group>"; };
+		B676BEAC2FDA25E100DE05E0 /* ClaudeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeService.swift; sourceTree = "<group>"; };
 		B69C678A2FD8933F001584E8 /* WristSide.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WristSide.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B69C67902FD8933F001584E8 /* WristSide Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WristSide Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B69C679F2FD89340001584E8 /* WristSide Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "WristSide Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -108,6 +113,7 @@
 		B676BE882FDA056700DE05E0 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				B676BEAA2FDA25C400DE05E0 /* ClaudeModel.swift */,
 				B676BE892FDA057200DE05E0 /* GameModels.swift */,
 			);
 			path = Models;
@@ -116,6 +122,7 @@
 		B676BE8B2FDA0B0300DE05E0 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				B676BEAC2FDA25E100DE05E0 /* ClaudeService.swift */,
 				B676BE8C2FDA0B0A00DE05E0 /* GameService.swift */,
 			);
 			path = Services;
@@ -330,7 +337,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				B676BE8D2FDA0E4400DE05E0 /* GameService.swift in Sources */,
+				B676BEAE2FDA268B00DE05E0 /* TriggerDetector.swift in Sources */,
 				B676BE8E2FDA0E9200DE05E0 /* GameModels.swift in Sources */,
+				B676BEAB2FDA25CD00DE05E0 /* ClaudeModel.swift in Sources */,
+				B676BEAD2FDA25E500DE05E0 /* ClaudeService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

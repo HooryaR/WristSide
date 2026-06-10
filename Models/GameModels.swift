@@ -52,3 +52,53 @@ struct Notes: Codable {
 struct Series: Codable {
     let summary: String
 }
+
+struct SummaryResponse: Codable {
+    let plays: [GamePlay]?
+    let boxscore: GameBoxscore?
+    let header: SummaryHeader?
+}
+
+struct GameBoxscore: Codable {
+    let teams: [BoxscoreTeam]?
+}
+
+struct BoxscoreTeam: Codable {
+    let team: Team?
+    let statistics: [GameStatistic]?
+}
+
+struct GameStatistic: Codable {
+    let name: String?
+    let displayValue: String?
+}
+
+struct SummaryHeader: Codable {
+    let competitions: [SummaryCompetition]?
+}
+
+struct SummaryCompetition: Codable {
+    let status: SummaryStatus?
+    let series: [Series]?
+}
+
+struct SummaryStatus: Codable {
+    let type: StatusType?
+}
+
+struct GamePlay: Codable {
+    let text: String?
+    let period: PlayPeriod?
+    let clock: PlayClock?
+    let homeScore: String?
+    let awayScore: String?
+    let scoringPlay: Bool?
+}
+
+struct PlayPeriod: Codable {
+    let number: Int?
+}
+
+struct PlayClock: Codable {
+    let displayValue: String?
+}

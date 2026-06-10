@@ -12,6 +12,7 @@ import Combine
 class GameService: ObservableObject {
     
     @Published var scoreboard: ScoreboardResponse?
+    @Published var summary: SummaryResponse?
     
     private var pollingTask: Task<Void, Never>?
     
@@ -35,6 +36,11 @@ class GameService: ObservableObject {
                 await fetchGameData()
                 
                 let state = scoreboard?.events.first?.status.type.state
+                
+                if state == "in" {
+                    await fetchSummaryData()
+                }
+                
                 if state == "post" {
                     break
                 }
@@ -50,8 +56,6 @@ class GameService: ObservableObject {
     }
     
     func fetchGameData() async {
-        print(Bundle.main.object(forInfoDictionaryKey: "SCOREBOARD_BASE_URL") as? String ?? "not found")
-        
         guard let baseURL = Bundle.main.object(forInfoDictionaryKey: "SCOREBOARD_BASE_URL") as? String,
               let url = URL(string: "https://\(baseURL)") else { return }
         
@@ -70,4 +74,23 @@ class GameService: ObservableObject {
         }
     }
     
+    func fetchSummaryData() async {
+        guard let eventId = scoreboard?.events.first?.id,
+              let baseURL = Bundle.main.object(forInfoDictionaryKey: "SUMMARY_BASE_URL") as? String,
+              let url = URL(string: "https://\(baseURL)?event=\(eventId)") else { return }
+        
+        do {
+            let (data, _) = try await URLSession.shared.data(from: url)
+            
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            
+            summary = try decoder.decode(SummaryResponse.self, from: data)
+            
+            print("Summary fetched: \(summary?.plays?.first?.text ?? "no plays yet")")
+            
+        } catch {
+            print("Failed to fetch summary data: \(error)")
+        }
+    }
 }

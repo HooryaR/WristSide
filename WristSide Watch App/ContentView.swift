@@ -35,7 +35,7 @@ struct ContentView: View {
             
             Spacer()
             
-            Text("Wemby 4 blocks - Knicks avoiding the paint")
+            Text(gameService.insight)
                 .font(Font.system(.caption, design: .rounded))
                 .multilineTextAlignment(.center)
                 .foregroundStyle(.green)

@@ -54,6 +54,7 @@
 /* Begin PBXFileReference section */
 		B676BE892FDA057200DE05E0 /* GameModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModels.swift; sourceTree = "<group>"; };
 		B676BE8C2FDA0B0A00DE05E0 /* GameService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameService.swift; sourceTree = "<group>"; };
+		B676BEA92FDA23AB00DE05E0 /* TriggerDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriggerDetector.swift; sourceTree = "<group>"; };
 		B69C678A2FD8933F001584E8 /* WristSide.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WristSide.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B69C67902FD8933F001584E8 /* WristSide Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WristSide Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B69C679F2FD89340001584E8 /* WristSide Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "WristSide Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -120,9 +121,18 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		B676BEA82FDA239600DE05E0 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				B676BEA92FDA23AB00DE05E0 /* TriggerDetector.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
 		B69C67832FD8933F001584E8 = {
 			isa = PBXGroup;
 			children = (
+				B676BEA82FDA239600DE05E0 /* Utilities */,
 				B676BE8B2FDA0B0300DE05E0 /* Services */,
 				B676BE882FDA056700DE05E0 /* Models */,
 				B69C67D32FD8B73E001584E8 /* Secrets.xcconfig */,

@@ -14,6 +14,7 @@ struct NBAEvent: Codable {
     let status: Status
     let date: String?
     let competitions: [NBACompetition]
+    var league: String = "nba"
 }
 
 struct NBACompetition: Codable {
@@ -103,4 +104,9 @@ struct PlayPeriod: Codable {
 
 struct PlayClock: Codable {
     let displayValue: String?
+}
+
+struct SelectedGame {
+    let id: String
+    let league: String
 }

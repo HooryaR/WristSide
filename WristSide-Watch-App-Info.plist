@@ -8,5 +8,9 @@
 	<string>$(SCOREBOARD_BASE_URL)</string>
 	<key>SUMMARY_BASE_URL</key>
 	<string>$(SUMMARY_BASE_URL)</string>
+	<key>WNBA_SCOREBOARD_BASE_URL</key>
+	<string>$(WNBA_SCOREBOARD_BASE_URL)</string>
+	<key>WNBA_SUMMARY_BASE_URL</key>
+	<string>$(WNBA_SUMMARY_BASE_URL)</string>
 </dict>
 </plist>

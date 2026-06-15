@@ -12,6 +12,7 @@ struct ScoreboardResponse: Codable {
 struct NBAEvent: Codable {
     let id: String
     let status: Status
+    let date: String?
     let competitions: [NBACompetition]
 }
 
@@ -43,6 +44,7 @@ struct Status: Codable {
 
 struct StatusType: Codable {
     let state: String
+    let detail: String?
 }
 
 struct Notes: Codable {

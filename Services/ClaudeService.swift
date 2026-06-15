@@ -68,7 +68,7 @@ class ClaudeService {
 
         do {
             let (data, _) = try await URLSession.shared.data(for: request)
-            print("Claude raw response: \(String(data: data, encoding: .utf8) ?? "unreadable")")
+            
             let response = try JSONDecoder().decode(ClaudeResponse.self, from: data)
             return response.content.first?.text ?? ""
         } catch {

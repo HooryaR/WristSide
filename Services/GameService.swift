@@ -20,6 +20,8 @@ class GameService: ObservableObject {
     
     private let claudeService = ClaudeService()
     
+    private var lastClaudeCallTime: Date = .distantPast
+    
     init() {
         startPolling()
     }
@@ -47,6 +49,7 @@ class GameService: ObservableObject {
                 }
                 
                 if state == "post" {
+                    insight = "Game over!"
                     break
                 }
                 
@@ -71,8 +74,6 @@ class GameService: ObservableObject {
             decoder.keyDecodingStrategy = .convertFromSnakeCase
             
             scoreboard = try decoder.decode(ScoreboardResponse.self, from: data)
-            
-            print("Fetched: \(scoreboard?.events.first?.status.type.state ?? "none")")
 
         } catch {
             print("Failed to fetch game data: \(error)")
@@ -92,8 +93,6 @@ class GameService: ObservableObject {
             
             summary = try decoder.decode(SummaryResponse.self, from: data)
             
-            print("Summary fetched: \(summary?.plays?.last?.text ?? "no plays yet")")
-            
         } catch {
             print("Failed to fetch summary data: \(error)")
         }
@@ -108,10 +107,7 @@ class GameService: ObservableObject {
               let homeScore = Int(home.score),
               let awayScore = Int(away.score) else { return }
         
-        print("Checking triggers — home: \(homeScore) away: \(awayScore) period: \(event.status.period)")
-
-        
-        let recentPlays = summary?.plays?.compactMap { $0.text } ?? []
+        let recentPlays = summary?.plays?.suffix(10).compactMap { $0.text } ?? []
         let seriesSummary = competition.series?.summary ?? ""
         
         if let trigger = triggerDetector.detect(
@@ -122,17 +118,21 @@ class GameService: ObservableObject {
             period: event.status.period,
             clock: event.status.displayClock
         ) {
-            insight = await claudeService.getInsight(
-                trigger: trigger,
-                homeTeam: home.team.abbreviation,
-                awayTeam: away.team.abbreviation,
-                homeScore: homeScore,
-                awayScore: awayScore,
-                period: event.status.period,
-                clock: event.status.displayClock,
-                seriesSummary: seriesSummary,
-                recentPlays: recentPlays
-            )
+            let now = Date()
+            if now.timeIntervalSince(lastClaudeCallTime) >= 120 {
+                lastClaudeCallTime = now
+                insight = await claudeService.getInsight(
+                    trigger: trigger,
+                    homeTeam: home.team.abbreviation,
+                    awayTeam: away.team.abbreviation,
+                    homeScore: homeScore,
+                    awayScore: awayScore,
+                    period: event.status.period,
+                    clock: event.status.displayClock,
+                    seriesSummary: seriesSummary,
+                    recentPlays: recentPlays
+                )
+            }
         }
     }
 }

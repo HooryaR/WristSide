@@ -11,6 +11,8 @@ import Combine
 @MainActor
 class GameService: ObservableObject {
     
+    @Published var allGames: [NBAEvent] = []
+    @Published var selectedGame: SelectedGame?
     @Published var scoreboard: ScoreboardResponse?
     @Published var summary: SummaryResponse?
     @Published var insight: String = "Waiting for a big moment..."
@@ -23,11 +25,13 @@ class GameService: ObservableObject {
     private var lastClaudeCallTime: Date = .distantPast
     
     init() {
-        startPolling()
+        Task {
+            await fetchAllGames()
+        }
     }
     
     private var pollingInterval: UInt64 {
-        let state = scoreboard?.events.first?.status.type.state
+        let state = scoreboard?.events.first(where: { $0.id == selectedGame?.id })?.status.type.state
         switch state {
         case "in": return 30_000_000_000
         case "pre": return 300_000_000_000
@@ -41,7 +45,7 @@ class GameService: ObservableObject {
             while !Task.isCancelled {
                 await fetchGameData()
                 
-                let state = scoreboard?.events.first?.status.type.state
+                let state = scoreboard?.events.first(where: { $0.id == selectedGame?.id })?.status.type.state
                 
                 if state == "in" {
                     await fetchSummaryData()
@@ -64,7 +68,8 @@ class GameService: ObservableObject {
     }
     
     func fetchGameData() async {
-        guard let baseURL = Bundle.main.object(forInfoDictionaryKey: "SCOREBOARD_BASE_URL") as? String,
+        guard let selected = selectedGame,
+              let baseURL = Bundle.main.object(forInfoDictionaryKey: selected.league == "nba" ? "SCOREBOARD_BASE_URL" : "WNBA_SCOREBOARD_BASE_URL") as? String,
               let url = URL(string: "https://\(baseURL)") else { return }
         
         do {
@@ -81,9 +86,10 @@ class GameService: ObservableObject {
     }
     
     func fetchSummaryData() async {
-        guard let eventId = scoreboard?.events.first?.id,
-              let baseURL = Bundle.main.object(forInfoDictionaryKey: "SUMMARY_BASE_URL") as? String,
-              let url = URL(string: "https://\(baseURL)?event=\(eventId)") else { return }
+        guard let selected = selectedGame,
+              let baseURL = Bundle.main.object(forInfoDictionaryKey: selected.league == "nba" ? "SUMMARY_BASE_URL" : "WNBA_SUMMARY_BASE_URL") as? String,
+              let url = URL(string: "https://\(baseURL)?event=\(selected.id)") else { return }
+            
         
         do {
             let (data, _) = try await URLSession.shared.data(from: url)
@@ -98,9 +104,63 @@ class GameService: ObservableObject {
         }
     }
     
+    func fetchAllGames() async {
+        var games: [NBAEvent] = []
+        
+        if let nbaURL = Bundle.main.object(forInfoDictionaryKey: "SCOREBOARD_BASE_URL") as? String,
+           let url = URL(string: "https://\(nbaURL)") {
+            do {
+                let (data, _) = try await URLSession.shared.data(from: url)
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                var response = try decoder.decode(ScoreboardResponse.self, from: data)
+                var nbaGames = response.events
+                nbaGames = nbaGames.map { event in
+                    var e = event
+                    e.league = "nba"
+                    return e
+                }
+                games.append(contentsOf: nbaGames)
+            } catch {
+                print("Failed to fetch NBA games: \(error)")
+            }
+        }
+        
+        if let wnbaURL = Bundle.main.object(forInfoDictionaryKey: "WNBA_SCOREBOARD_BASE_URL") as? String,
+           let url = URL(string: "https://\(wnbaURL)") {
+            do {
+                let (data, _) = try await URLSession.shared.data(from: url)
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                var response = try decoder.decode(ScoreboardResponse.self, from: data)
+                var wnbaGames = response.events
+                wnbaGames = wnbaGames.map { event in
+                    var e = event
+                    e.league = "wnba"
+                    return e
+                }
+                games.append(contentsOf: wnbaGames)
+            } catch {
+                print("Failed to fetch WNBA games: \(error)")
+            }
+        }
+        
+        allGames = games
+    }
+    
+    func selectGame(_ game: NBAEvent) {
+        selectedGame = SelectedGame(id: game.id, league: game.league)
+        insight = "Waiting for a big moment..."
+        triggerDetector = TriggerDetector()
+        lastClaudeCallTime = .distantPast
+        startPolling()
+    }
+
+    
     func checkForTriggers() async {
 
-        guard let event = scoreboard?.events.first,
+        guard let selected = selectedGame,
+              let event = scoreboard?.events.first(where: { $0.id == selected.id }),
               let competition = event.competitions.first,
               let home = competition.competitors.first(where: { $0.homeAway == "home" }),
               let away = competition.competitors.first(where: { $0.homeAway == "away" }),

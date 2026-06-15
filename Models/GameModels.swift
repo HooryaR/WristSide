@@ -90,8 +90,8 @@ struct GamePlay: Codable {
     let text: String?
     let period: PlayPeriod?
     let clock: PlayClock?
-    let homeScore: String?
-    let awayScore: String?
+    let homeScore: Int?
+    let awayScore: Int?
     let scoringPlay: Bool?
 }
 

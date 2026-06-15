@@ -40,7 +40,7 @@ struct ContentView: View {
                 .multilineTextAlignment(.center)
                 .foregroundStyle(.green)
                 .fixedSize(horizontal: false, vertical: true)
-                .lineLimit(3)
+                .lineLimit(4)
                 .padding()
             
             HStack {

@@ -30,6 +30,8 @@ class ClaudeService {
             triggerDescription = "\(newLeader) just took the lead"
         case .clutchTime:
             triggerDescription = "Clutch time — Q4 under 2 minutes within 5 points"
+        case .quarterEnd(let period):
+            triggerDescription = "End of Q\(period), summarise what just happened this quarter"
         }
 
         let recentPlaysText = recentPlays.prefix(10).joined(separator: "\n")
@@ -54,9 +56,9 @@ class ClaudeService {
         request.setValue("2023-06-01", forHTTPHeaderField: "anthropic-version")
 
         let body: [String: Any] = [
-            "model": "claude-sonnet-4-20250514",
+            "model": "claude-sonnet-4-5",
             "max_tokens": 100,
-            "system": "You are a courtside NBA analyst. Respond with ONE sentence under 12 words. Present tense. Be specific, name players. No punctuation at the end.",
+            "system": "You are a courtside NBA analyst. Respond with less than one sentence and under 12 words. Present tense. Be specific, name players. No punctuation at the end.",
             "messages": [
                 ["role": "user", "content": prompt]
             ]
@@ -66,6 +68,7 @@ class ClaudeService {
 
         do {
             let (data, _) = try await URLSession.shared.data(for: request)
+            print("Claude raw response: \(String(data: data, encoding: .utf8) ?? "unreadable")")
             let response = try JSONDecoder().decode(ClaudeResponse.self, from: data)
             return response.content.first?.text ?? ""
         } catch {

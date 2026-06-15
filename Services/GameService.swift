@@ -92,7 +92,7 @@ class GameService: ObservableObject {
             
             summary = try decoder.decode(SummaryResponse.self, from: data)
             
-            print("Summary fetched: \(summary?.plays?.first?.text ?? "no plays yet")")
+            print("Summary fetched: \(summary?.plays?.last?.text ?? "no plays yet")")
             
         } catch {
             print("Failed to fetch summary data: \(error)")
@@ -100,12 +100,16 @@ class GameService: ObservableObject {
     }
     
     func checkForTriggers() async {
+
         guard let event = scoreboard?.events.first,
               let competition = event.competitions.first,
               let home = competition.competitors.first(where: { $0.homeAway == "home" }),
               let away = competition.competitors.first(where: { $0.homeAway == "away" }),
               let homeScore = Int(home.score),
               let awayScore = Int(away.score) else { return }
+        
+        print("Checking triggers — home: \(homeScore) away: \(awayScore) period: \(event.status.period)")
+
         
         let recentPlays = summary?.plays?.compactMap { $0.text } ?? []
         let seriesSummary = competition.series?.summary ?? ""

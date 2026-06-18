@@ -29,7 +29,16 @@ struct ContentView: View {
         let state = event?.status.type.state
         switch state {
         case "in":
-            return "Q\(event?.status.period ?? 0) · \(event?.status.displayClock ?? "--")"
+            let period = event?.status.period ?? 0
+            let periodDisplay: String
+            if period <= 4 {
+                periodDisplay = "Q\(period)"
+            } else if period == 5 {
+                periodDisplay = "OT"
+            } else {
+                periodDisplay = "\(period - 4) OT"
+            }
+            return "\(periodDisplay) · \(event?.status.displayClock ?? "--")"
         case "pre":
             return pregameDisplay
         case "post":

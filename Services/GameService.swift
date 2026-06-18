@@ -15,7 +15,7 @@ class GameService: ObservableObject {
     @Published var selectedGame: SelectedGame?
     @Published var scoreboard: ScoreboardResponse?
     @Published var summary: SummaryResponse?
-    @Published var insight: String = "Waiting for a big moment..."
+    @Published var insight: String = "Eyes on the game · insight coming"
     
     private var pollingTask: Task<Void, Never>?
     private var triggerDetector = TriggerDetector()
@@ -99,6 +99,12 @@ class GameService: ObservableObject {
             
             summary = try decoder.decode(SummaryResponse.self, from: data)
             
+            if let lastPlay = summary?.plays?.last?.text {
+                if insight == "Eyes on the game · insight coming" {
+                    insight = lastPlay
+                }
+            }
+            
         } catch {
             print("Failed to fetch summary data: \(error)")
         }
@@ -152,7 +158,7 @@ class GameService: ObservableObject {
         selectedGame = SelectedGame(id: game.id, league: game.league)
         scoreboard = nil
         summary = nil
-        insight = "Waiting for a big moment..."
+        insight = "Eyes on the game · insight coming"
         triggerDetector = TriggerDetector()
         lastClaudeCallTime = .distantPast
         startPolling()
@@ -178,7 +184,8 @@ class GameService: ObservableObject {
             homeTeam: home.team.abbreviation,
             awayTeam: away.team.abbreviation,
             period: event.status.period,
-            clock: event.status.displayClock
+            clock: event.status.displayClock,
+            plays: recentPlays
         ) {
             let now = Date()
             if now.timeIntervalSince(lastClaudeCallTime) >= 120 {
@@ -192,7 +199,8 @@ class GameService: ObservableObject {
                     period: event.status.period,
                     clock: event.status.displayClock,
                     seriesSummary: seriesSummary,
-                    recentPlays: recentPlays
+                    recentPlays: recentPlays,
+                    league: selectedGame?.league ?? "nba"
                 )
             }
         }

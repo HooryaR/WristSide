@@ -18,7 +18,8 @@ class ClaudeService {
         period: Int,
         clock: String,
         seriesSummary: String,
-        recentPlays: [String]
+        recentPlays: [String],
+        league: String
     ) async -> String {
         guard let apiKey = Bundle.main.object(forInfoDictionaryKey: "ANTHROPIC_API_KEY") as? String else { return "" }
         
@@ -32,14 +33,57 @@ class ClaudeService {
             triggerDescription = "Clutch time — Q4 under 2 minutes within 5 points"
         case .quarterEnd(let period):
             triggerDescription = "End of Q\(period), summarise what just happened this quarter"
+        case .threePointer(let player):
+            triggerDescription = "\(player) just hit a three pointer"
+        case .consecutiveThrees(let team):
+            triggerDescription = "\(team) just hit back to back three pointers"
+        case .bigBlock(let player):
+            triggerDescription = "\(player) just recorded a big block"
+        case .steal(let player):
+            triggerDescription = "\(player) just got a steal"
+        case .andOne(let player):
+            triggerDescription = "\(player) just converted an and-one"
+        case .comeback(let team, let deficit):
+            triggerDescription = "\(team) has cut a \(deficit) point deficit to within 5"
+        case .playerMilestone(let player, let points):
+            triggerDescription = "\(player) just reached \(points) points in this game"
+        case .scoringDrought(let team):
+            triggerDescription = "\(team) has gone cold — no score in over 2 minutes"
+        case .foulTrouble(let player, let fouls):
+            triggerDescription = "\(player) is in foul trouble with \(fouls) fouls"
+        case .tieGame(let isOT):
+            triggerDescription = isOT ? "Game tied in overtime" : "Game tied in regulation"
+        }
+        
+        let leagueContext: String
+        switch league {
+        case "wnba":
+            leagueContext = "WNBA regular season game"
+        case "nba":
+            if seriesSummary.isEmpty {
+                leagueContext = "NBA regular season game"
+            } else {
+                leagueContext = "NBA playoff game — \(seriesSummary)"
+            }
+        default:
+            leagueContext = "basketball game"
+        }
+        
+        let periodDisplay: String
+        if period <= 4 {
+            periodDisplay = "Q\(period)"
+        } else if period == 5 {
+            periodDisplay = "OT"
+        } else {
+            periodDisplay = "\(period - 4)OT"
         }
 
         let recentPlaysText = recentPlays.prefix(10).joined(separator: "\n")
 
         let prompt = """
-        NBA Finals live game context:
+        \(leagueContext)
         \(homeTeam): \(homeScore) | \(awayTeam): \(awayScore)
-        Period: Q\(period) | Clock: \(clock)
+        Period: \(periodDisplay) | Clock: \(clock)
         Series: \(seriesSummary)
         Recent plays:
         \(recentPlaysText)
@@ -58,7 +102,7 @@ class ClaudeService {
         let body: [String: Any] = [
             "model": "claude-sonnet-4-5",
             "max_tokens": 100,
-            "system": "You are a courtside NBA analyst. Respond with less than one sentence and under 12 words. Present tense. Be specific, name players. No punctuation at the end.",
+            "system": "You are a courtside basketball expert analyst covering both NBA and WNBA. Respond with ONE sentence under 12 words. Present tense. Be specific, name players. No punctuation at the end.",
             "messages": [
                 ["role": "user", "content": prompt]
             ]

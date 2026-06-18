@@ -150,6 +150,8 @@ class GameService: ObservableObject {
     
     func selectGame(_ game: NBAEvent) {
         selectedGame = SelectedGame(id: game.id, league: game.league)
+        scoreboard = nil
+        summary = nil
         insight = "Waiting for a big moment..."
         triggerDetector = TriggerDetector()
         lastClaudeCallTime = .distantPast

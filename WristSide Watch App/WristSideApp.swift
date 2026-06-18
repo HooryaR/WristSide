@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct WristSide_Watch_AppApp: App {
+    @StateObject var gameService = GameService()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            GameListView(gameService: gameService)
         }
     }
 }

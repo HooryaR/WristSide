@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var gameService = GameService()
+    @ObservedObject var gameService = GameService()
     
-    var event: NBAEvent? { gameService.scoreboard?.events.first }
+    var event: NBAEvent? {
+        gameService.scoreboard?.events.first(where: { $0.id == gameService.selectedGame?.id })
+    }
     
     var competition: NBACompetition? { event?.competitions.first }
     
@@ -29,7 +31,7 @@ struct ContentView: View {
         case "in":
             return "Q\(event?.status.period ?? 0) · \(event?.status.displayClock ?? "--")"
         case "pre":
-            return event?.status.type.detail ?? "Tip-off soon"
+            return pregameDisplay
         case "post":
             return "Final"
         default:
@@ -80,10 +82,10 @@ struct ContentView: View {
                 .font(gameTimeFont)
             
             HStack {
-                Text(competition?.series?.summary ?? "NBA Finals")
+                Text(competition?.series?.summary ?? "")
             }.foregroundStyle(.white)
             
-            Text(competition?.notes?.first?.headline ?? "Finals")
+            Text(competition?.notes?.first?.headline ?? "")
                 .font(Font.system(.footnote, design: .rounded))
                 .foregroundStyle(.gray)
             
@@ -127,5 +129,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    ContentView(gameService: GameService())
 }

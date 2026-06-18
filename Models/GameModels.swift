@@ -15,6 +15,13 @@ struct NBAEvent: Codable {
     let date: String?
     let competitions: [NBACompetition]
     var league: String = "nba"
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case date
+        case status
+        case competitions
+    }
 }
 
 struct NBACompetition: Codable {

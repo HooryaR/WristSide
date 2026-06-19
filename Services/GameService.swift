@@ -16,6 +16,8 @@ class GameService: ObservableObject {
     @Published var scoreboard: ScoreboardResponse?
     @Published var summary: SummaryResponse?
     @Published var insight: String = "Eyes on the game · insight coming"
+    @Published var isClaudeInsight: Bool = false
+
     
     private var pollingTask: Task<Void, Never>?
     private var triggerDetector = TriggerDetector()
@@ -101,6 +103,7 @@ class GameService: ObservableObject {
             
             if let lastPlay = summary?.plays?.last?.text {
                 if insight == "Eyes on the game · insight coming" {
+                    isClaudeInsight = false
                     insight = lastPlay
                 }
             }
@@ -161,6 +164,7 @@ class GameService: ObservableObject {
         insight = "Eyes on the game · insight coming"
         triggerDetector = TriggerDetector()
         lastClaudeCallTime = .distantPast
+        isClaudeInsight = false
         startPolling()
     }
 
@@ -202,6 +206,7 @@ class GameService: ObservableObject {
                     recentPlays: recentPlays,
                     league: selectedGame?.league ?? "nba"
                 )
+                isClaudeInsight = true
             }
         }
     }

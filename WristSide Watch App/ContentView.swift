@@ -103,15 +103,15 @@ struct ContentView: View {
             Text(gameService.insight)
                 .font(Font.system(.caption, design: .rounded))
                 .multilineTextAlignment(.center)
-                .foregroundStyle(.green)
+                .foregroundStyle(gameService.isClaudeInsight ? .green : .blue)
                 .fixedSize(horizontal: false, vertical: true)
                 .lineLimit(4)
                 .padding()
             
             HStack {
                 VStack {
-                    Text(home?.team.abbreviation ?? "---")
-                    Text(home?.score ?? "0")
+                    Text(away?.team.abbreviation ?? "---")
+                    Text(away?.score ?? "0")
                         .font(Font.system(.callout, design: .rounded))
                 }.bold()
                 
@@ -125,8 +125,8 @@ struct ContentView: View {
                 Spacer()
                 
                 VStack {
-                    Text(away?.team.abbreviation ?? "---")
-                    Text(away?.score ?? "0")
+                    Text(home?.team.abbreviation ?? "---")
+                    Text(home?.score ?? "0")
                         
                         .font(Font.system(.callout, design: .rounded))
                 }.bold()

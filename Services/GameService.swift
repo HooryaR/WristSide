@@ -56,6 +56,7 @@ class GameService: ObservableObject {
                 
                 if state == "post" {
                     insight = "Game over!"
+                    await fetchAllGames()
                     break
                 }
                 
@@ -207,6 +208,11 @@ class GameService: ObservableObject {
                     league: selectedGame?.league ?? "nba"
                 )
                 isClaudeInsight = true
+                Task {
+                    try? await Task.sleep(nanoseconds: 180_000_000_000)
+                    isClaudeInsight = false
+                }
+
             }
         }
     }

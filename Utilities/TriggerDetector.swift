@@ -24,6 +24,27 @@ enum GameTrigger {
     case tieGame(isOT: Bool)
 }
 
+extension GameTrigger: CustomStringConvertible {
+    var description: String {
+        switch self {
+        case .scoringRun(let team, let points): return "scoringRun \(team) \(points)pts"
+        case .leadChange(let team): return "leadChange \(team)"
+        case .clutchTime: return "clutchTime"
+        case .quarterEnd(let period): return "quarterEnd Q\(period)"
+        case .threePointer(let player): return "threePointer \(player)"
+        case .consecutiveThrees(let team): return "consecutiveThrees \(team)"
+        case .bigBlock(let player): return "bigBlock \(player)"
+        case .steal(let player): return "steal \(player)"
+        case .andOne(let player): return "andOne \(player)"
+        case .comeback(let team, let deficit): return "comeback \(team) from \(deficit)"
+        case .playerMilestone(let player, let points): return "milestone \(player) \(points)pts"
+        case .scoringDrought(let team): return "scoringDrought \(team)"
+        case .foulTrouble(let player, let fouls): return "foulTrouble \(player) \(fouls)fouls"
+        case .tieGame(let isOT): return isOT ? "tieGame OT" : "tieGame"
+        }
+    }
+}
+
 struct TriggerDetector {
     private var previousHomeScore: Int = 0
     private var previousAwayScore: Int = 0

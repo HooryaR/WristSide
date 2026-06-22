@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import OSLog
 
 @MainActor
 class GameService: ObservableObject {
@@ -84,7 +85,7 @@ class GameService: ObservableObject {
             scoreboard = try decoder.decode(ScoreboardResponse.self, from: data)
 
         } catch {
-            print("Failed to fetch game data: \(error)")
+            Logger.gameService.error("Failed to fetch game data: \(error.localizedDescription)")
         }
     }
     
@@ -110,7 +111,7 @@ class GameService: ObservableObject {
             }
             
         } catch {
-            print("Failed to fetch summary data: \(error)")
+            Logger.gameService.error("Failed to fetch summary data: \(error.localizedDescription)")
         }
     }
     
@@ -132,7 +133,7 @@ class GameService: ObservableObject {
                 }
                 games.append(contentsOf: nbaGames)
             } catch {
-                print("Failed to fetch NBA games: \(error)")
+                Logger.network.error("Failed to fetch NBA games: \(error.localizedDescription)")
             }
         }
         
@@ -151,7 +152,7 @@ class GameService: ObservableObject {
                 }
                 games.append(contentsOf: wnbaGames)
             } catch {
-                print("Failed to fetch WNBA games: \(error)")
+                Logger.network.error("Failed to fetch WNBA games: \(error.localizedDescription)")
             }
         }
         
@@ -160,6 +161,7 @@ class GameService: ObservableObject {
     
     func selectGame(_ game: NBAEvent) {
         selectedGame = SelectedGame(id: game.id, league: game.league)
+        Logger.gameService.info("Game selected: \(game.id) league: \(game.league)")
         scoreboard = nil
         summary = nil
         insight = "Eyes on the game · insight coming"
@@ -208,6 +210,7 @@ class GameService: ObservableObject {
                     league: selectedGame?.league ?? "nba"
                 )
                 isClaudeInsight = true
+                Logger.gameService.info("Claude insight triggered: \(trigger)")
                 Task {
                     try? await Task.sleep(nanoseconds: 180_000_000_000)
                     isClaudeInsight = false

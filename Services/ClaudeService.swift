@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import OSLog
 
 class ClaudeService {
     
@@ -116,7 +117,7 @@ class ClaudeService {
             let response = try JSONDecoder().decode(ClaudeResponse.self, from: data)
             return response.content.first?.text ?? ""
         } catch {
-            print("Claude API error: \(error)")
+            Logger.claudeService.error("Claude API error: \(error.localizedDescription)")
             return ""
         }
         

@@ -46,8 +46,8 @@ extension GameTrigger: CustomStringConvertible {
 }
 
 struct TriggerDetector {
-    private var previousHomeScore: Int = 0
-    private var previousAwayScore: Int = 0
+    private var previousHomeScore: Int = -1
+    private var previousAwayScore: Int = -1
     private var previousPeriod: Int = 0
     private var previousLeader: String = ""
     private var hasShownBlowout: Bool = false
@@ -76,8 +76,9 @@ struct TriggerDetector {
     ) -> GameTrigger? {
         
         if period != previousPeriod && previousPeriod != 0 {
+            let endedPeriod = previousPeriod
             previousPeriod = period
-            return .quarterEnd(period: previousPeriod)
+            return .quarterEnd(period: endedPeriod)
         }
         previousPeriod = period
         
@@ -99,6 +100,15 @@ struct TriggerDetector {
             return .clutchTime
         }
         
+        // tie game
+        if homeScore == awayScore && homeScore > 0 && previousHomeScore != previousAwayScore {
+            let isOT = period > 4
+            previousHomeScore = homeScore
+            previousAwayScore = awayScore
+            return .tieGame(isOT: isOT)
+        }
+
+        
         let currentLeader = homeScore > awayScore ? homeTeam : awayTeam
 
         if previousLeader != "" && currentLeader != previousLeader {
@@ -108,8 +118,8 @@ struct TriggerDetector {
 
         previousLeader = currentLeader
         
-        let homePointsScored = homeScore - previousHomeScore
-        let awayPointsScored = awayScore - previousAwayScore
+        let homePointsScored = previousHomeScore == -1 ? 0 : homeScore - previousHomeScore
+        let awayPointsScored = previousAwayScore == -1 ? 0 : awayScore - previousAwayScore
 
         if homePointsScored >= 4 && awayPointsScored == 0 {
             previousHomeScore = homeScore
@@ -168,14 +178,6 @@ struct TriggerDetector {
                 if foulCount >= 3 {
                     return .foulTrouble(player: player, fouls: foulCount)
                 }
-            }
-        }
-        
-        // tie game
-        if homeScore == awayScore && homeScore > 0 {
-            let isOT = period > 4
-            if previousHomeScore != previousAwayScore {
-                return .tieGame(isOT: isOT)
             }
         }
         
